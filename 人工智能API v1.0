@@ -7,7 +7,7 @@ post:/classify_upload
 101 图片无法打开
 正常返回
 结果json 如 {"image": "\\uploads\\2016-04-18_15_55_14.775000111.jpg", "result": ["XXX"]}
-包括绝对路径，结果的string
+包括绝对路径，结果的string的List
 
 2.url分类
 get:/classify_url
@@ -17,4 +17,4 @@ get:/classify_url
 103 图片无法打开
 正常返回
 结果json 如 {"image": "\\uploads\\2016-04-18_15_55_14.775000111.jpg", "result": ["XXX"]}
-包括绝对路径，结果的string
+包括绝对路径，结果的string的List
