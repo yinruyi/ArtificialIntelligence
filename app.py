@@ -1,5 +1,5 @@
 import os
-import time
+import time,datetime
 import cPickle
 import datetime
 import logging
@@ -13,6 +13,8 @@ import sys
 import json
 import image_classification_predict
 import random
+from urllib import unquote
+
 reload(sys)
 sys.setdefaultencoding('utf-8')
 abspath = os.getcwd()
@@ -34,34 +36,28 @@ def index():
 def classify_url():
     imageurl = flask.request.args.get('imageurl', '')
     try:
-        '''string_buffer = StringIO.StringIO(
-            urllib.urlopen(imageurl).read())
-        print string_buffer,type(string_buffer)'''
         if not allowed_file(imageurl):
-            return "100"        
+            return "102"
+        imageurl = unquote(imageurl)
         imgData = urllib.urlopen(imageurl).read()
         time_ = str(datetime.datetime.now()).replace(' ', '_')
         time_ = time_.replace(':','_')
         img_tag = imageurl.rsplit('.', 1)[1]
         new_img_name = time_ + str(random.randint(10000, 1000000)) + '.' + img_tag
-        f = file(UPLOAD_FOLDER+new_img_name,'wb')
-        f.write(data)
+        filename = str(UPLOAD_FOLDER+'//'+new_img_name)
+        f = file(filename,'wb')
+        f.write(imgData)
         f.close()
-
-
+        
     except Exception as err:
         # For any exception we encounter in reading the image, we will just
         # not continue.
         logging.info('URL Image open error: %s', err)
-        return flask.render_template(
-            'index.html', has_result=True,
-            result=(False, 'Cannot open image from URL.')
-        )
-
+        return '103'
     logging.info('Image: %s', imageurl)
-    result = app.clf.classify_image(image)
-    return flask.render_template(
-        'index.html', has_result=True, result=result, imagesrc=imageurl)
+    result = image_classification_predict.Main(filename)
+
+    return json.dumps({"result":[result],"image":filename})
 
 
 @app.route('/classify_upload', methods=['POST'])
@@ -82,7 +78,7 @@ def classify_upload():
         logging.info('Uploaded image open error: %s', err)
         return "101"
     result = image_classification_predict.Main(filename)
-    return json.dumps({"result":result,"image":filename})
+    return json.dumps({"result":[result],"image":filename})
 
 
 def allowed_file(filename):
