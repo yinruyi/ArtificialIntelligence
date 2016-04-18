@@ -1,0 +1,20 @@
+人工智能API v1.0
+
+1.upload image
+post:/classify_upload
+返回
+100 不是图片
+101 图片无法打开
+正常返回
+结果json 如 {"image": "\\uploads\\2016-04-18_15_55_14.775000111.jpg", "result": ["XXX"]}
+包括绝对路径，结果的string
+
+2.url分类
+get:/classify_url
+请求参数{'imageurl':'http%3A%2F%2Fi.telegraph.co.uk%2Fmultimedia%2Farchive%2F02351%2Fcross-eyed-cat_2351472k.jpg'}
+返回
+102 不是图片文件
+103 图片无法打开
+正常返回
+结果json 如 {"image": "\\uploads\\2016-04-18_15_55_14.775000111.jpg", "result": ["XXX"]}
+包括绝对路径，结果的string
