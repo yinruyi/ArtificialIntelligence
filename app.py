@@ -20,7 +20,7 @@ sys.setdefaultencoding('utf-8')
 abspath = os.getcwd()
 
 REPO_DIRNAME = os.path.abspath(os.path.dirname(os.path.abspath(__file__)) + '/../..')
-UPLOAD_FOLDER = abspath+'\\uploads'
+UPLOAD_FOLDER = abspath+'/static/uploads'
 ALLOWED_IMAGE_EXTENSIONS = set(['png', 'bmp', 'jpg', 'jpe', 'jpeg', 'gif'])
 
 # Obtain the flask app object
@@ -44,7 +44,7 @@ def classify_url():
         time_ = time_.replace(':','_')
         img_tag = imageurl.rsplit('.', 1)[1]
         new_img_name = time_ + str(random.randint(10000, 1000000)) + '.' + img_tag
-        filename = str(UPLOAD_FOLDER+'//'+new_img_name)
+        filename = str(UPLOAD_FOLDER+'/'+new_img_name)
         f = file(filename,'wb')
         f.write(imgData)
         f.close()
@@ -57,7 +57,7 @@ def classify_url():
     logging.info('Image: %s', imageurl)
     result = image_classification_predict.Main(filename)
 
-    return json.dumps({"result":[result],"image":filename})
+    return json.dumps({"result":[result],"image":'/static/uploads/'+new_img_name})
 
 
 @app.route('/classify_upload', methods=['POST'])
@@ -78,7 +78,7 @@ def classify_upload():
         logging.info('Uploaded image open error: %s', err)
         return "101"
     result = image_classification_predict.Main(filename)
-    return json.dumps({"result":[result],"image":filename})
+    return json.dumps({"result":[result],"image":'/static/uploads/'+filename_})
 
 
 def allowed_file(filename):
