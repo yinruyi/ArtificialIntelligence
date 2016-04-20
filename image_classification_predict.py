@@ -57,7 +57,7 @@ print("Top1: ", top1)
 '''
 def Main(path):
     batch = PreprocessImage(path, True)
-    pro = model.predict(batch)[0]
+    prob = model.predict(batch)[0]
     pred = np.argsort(prob)[::-1]
     top1 = synset[pred[0]]
     return top1
