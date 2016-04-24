@@ -1,9 +1,8 @@
 #conding:utf-8
 import os
 import io
-import Image
-from array import array
 import time,datetime
+import socket
 
 reload(sys)
 sys.setdefaultencoding('utf-8')

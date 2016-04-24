@@ -10,17 +10,20 @@ class UdpServer(object):
     def tcpServer(self):  
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  
         sock.bind(('', 9527))       # 绑定同一个域名下的所有机器  
-          
-        while True:  
-            revcData, (remoteHost, remotePort) = sock.recvfrom(1024)  
-            print("[%s:%s] connect" % (remoteHost, remotePort))     # 接收客户端的ip, port  
-            try:  
-                sendDataLen = sock.sendto(calculate(revcData), (remoteHost, remotePort))  
-            except:
-                sendDataLen = sock.sendto('error', (remoteHost, remotePort))  
-            print "revcData: ", revcData  
-            print "sendDataLen: ", sendDataLen  
-              
+        
+        while True: 
+            try:
+                connection.settimeout(50)
+                revcData, (remoteHost, remotePort) = sock.recvfrom(1024)  
+                print("[%s:%s] connect" % (remoteHost, remotePort))     # 接收客户端的ip, port  
+                try:  
+                    sendDataLen = sock.sendto(calculate(revcData), (remoteHost, remotePort))  
+                except:
+                    sendDataLen = sock.sendto('error', (remoteHost, remotePort))  
+                print "revcData: ", revcData  
+                print "sendDataLen: ", sendDataLen
+            except socket.timeout:
+                print 'timeout'
         sock.close()  
 
 
