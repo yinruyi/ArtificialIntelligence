@@ -10,7 +10,7 @@ class UdpClient(object):
     def tcpclient(self):  
         clientSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  
   
-        sendDataLen = clientSock.sendto("[1,1,1,1]", ('192.168.1.120', 9527))  
+        sendDataLen = clientSock.sendto("[1,1,1,1]", ('182.92.10.18', 9527))  
         recvData = clientSock.recvfrom(1024)  
         print "sendDataLen: ", sendDataLen  
         print "recvData: ", recvData  

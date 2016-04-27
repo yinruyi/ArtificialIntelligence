@@ -23,7 +23,7 @@ class UdpServer(object):
     def tcpServer(self):  
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  
         sock.bind(('', 9527))  
-        
+        sock.listen(5)
         while True:
             try:
                 revcData, (remoteHost, remotePort) = sock.recvfrom(1024)  
