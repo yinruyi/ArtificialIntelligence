@@ -1,6 +1,5 @@
 from socket import *  
   
-host = 'localhost'  
 port = 9999  
 bufsize = 1024  
 addr = (host,port)  

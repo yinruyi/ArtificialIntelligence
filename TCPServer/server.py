@@ -1,3 +1,4 @@
+#conding:utf-8
 import SocketServer  
 from SocketServer import StreamRequestHandler as SRH  
 from time import ctime  
@@ -6,13 +7,13 @@ import io
 import time,datetime
 import socket
 import random
-import image_classification_predict_back
+import image_classification_predict
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-UPLOAD_FOLDER = 'uploads\\'
-BUFFER_SIZE = 1024
+UPLOAD_FOLDER = 'uploads/'
+BUFFER_SIZE = 1024000
 host = ''  
 port = 9999  
 addr = (host,port)  
@@ -24,7 +25,7 @@ def saveImg(imgString, address='no_address'):
     new_img_name = address + time_ + str(random.randint(10000, 1000000)) + '.jpg'
     with open(UPLOAD_FOLDER+new_img_name,'wb') as img:
         img.write(imgString)
-    return image_classification_predict_back.Main(UPLOAD_FOLDER+new_img_name)
+    return image_classification_predict.Main(UPLOAD_FOLDER+new_img_name)
 
 class Servers(SRH):  
     def handle(self):  
@@ -36,7 +37,10 @@ class Servers(SRH):
                 break  
             print data  
             print "RECV from ", self.client_address[0]
-            msg = saveImg(data, self.client_address[0])
+            try:
+                msg = saveImg(data, self.client_address[0])
+            except:
+                msg = 'error'
             self.request.send(msg)
 
 if __name__ == '__main__':
