@@ -1,6 +1,6 @@
 def Main(path):
 	if str(type(path)) == "<type 'str'>":
-		return "my master is Ruyi Yin"
+		return "hello"
 	else:
 		return "101"
 
