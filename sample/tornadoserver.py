@@ -35,14 +35,19 @@ class CommunicationHandler(Connection):
     def handle_data(self, data):
         self.stream.write("OK")
         self._read()
-        print "%s %s" % (strftime("%Y-%m-%d %H:%M:%S", gmtime()), data.strip())
+        print "%s" % (strftime("%Y-%m-%d %H:%M:%S", gmtime()))
+        print data
+        data = bytearray(data)
+        print data
+        data = repr(data)
+        print data
 
 if __name__ == '__main__':
     
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sock.setblocking(0)
-    sock.bind(("localhost", 9999))
+    sock.bind(("", 9999))
     sock.listen(128)
 
     io_loop = ioloop.IOLoop.instance()

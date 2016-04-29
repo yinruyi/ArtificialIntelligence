@@ -2,7 +2,7 @@ import socket
 import sys
 from time import sleep
 
-HOST, PORT = "localhost", 9999
+HOST, PORT = "182.92.10.18", 9999
 data = "hello"
 
 # Create a socket (SOCK_STREAM means a TCP socket)

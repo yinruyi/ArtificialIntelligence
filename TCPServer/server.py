@@ -8,7 +8,6 @@ import time,datetime
 import socket
 import random
 import image_classification_predict_back
-import io
 import Image
 from PIL import ImageFile
 from array import array
