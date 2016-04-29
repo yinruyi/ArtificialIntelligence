@@ -36,18 +36,18 @@ def saveImg(imgString, address='no_address'):
 
 
 def byte2Img(imgString, address='no_address'):
-    if '<' in imgString and '>' in imgString:
-        imgString = imgString.replace('<','')
-        imgString = imgString.replace('>','')
-        time_ = str(datetime.datetime.now()).replace(' ', '_')
-        time_ = time_.replace(':','_')
-        address = address.replace('.','_')
-        new_img_name = address + time_ + str(random.randint(10000, 1000000)) + '.jpg'
-        with open(UPLOAD_FOLDER+new_img_name, 'wb') as f:
-            f.write(imgString.replace(' ', '').decode('hex'))
-        return image_classification_predict_back.Main(UPLOAD_FOLDER+new_img_name)
-    else:
-    	return ''
+    #if '<' in imgString and '>' in imgString:
+    imgString = imgString.replace('<','')
+    imgString = imgString.replace('>','')
+    time_ = str(datetime.datetime.now()).replace(' ', '_')
+    time_ = time_.replace(':','_')
+    address = address.replace('.','_')
+    new_img_name = address + time_ + str(random.randint(10000, 1000000)) + '.jpg'
+    with open(UPLOAD_FOLDER+new_img_name, 'wb') as f:
+        f.write(imgString.replace(' ', '').decode('hex'))
+    return image_classification_predict_back.Main(UPLOAD_FOLDER+new_img_name)
+    # else:ls
+    # 	return ''
 
 def ioImage(data):
     data = bytearray(data)
@@ -62,7 +62,11 @@ class Servers(SRH):
             data = self.request.recv(BUFFER_SIZE)  
             if not data:   
                 break
+            with open('data1.txt','wb') as datafile:
+                  datafile.write(data)            
             data = repr(data)
+            with open('data2.txt','wb') as datafile:
+                  datafile.write(data)  
             data = binascii.hexlify(data)
             print type(data),data
             with open('data.txt','wb') as datafile:
