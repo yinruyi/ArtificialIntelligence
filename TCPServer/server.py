@@ -8,14 +8,17 @@ import time,datetime
 import socket
 import random
 import image_classification_predict_back
+import io
 import Image
+from PIL import ImageFile
 from array import array
 
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
 UPLOAD_FOLDER = 'uploads/'
-BUFFER_SIZE = 1024000*10
+BUFFER_SIZE = 1024000
 host = ''  
 port = 9999  
 addr = (host,port)  
@@ -39,7 +42,7 @@ def byte2Img(imgString, address='no_address'):
         time_ = time_.replace(':','_')
         address = address.replace('.','_')
         new_img_name = address + time_ + str(random.randint(10000, 1000000)) + '.jpg'
-        with open(UPLOAD_FOLDER+new_img_name, 'w') as f:
+        with open(UPLOAD_FOLDER+new_img_name, 'wb') as f:
             f.write(imgString.replace(' ', '').decode('hex'))
         return image_classification_predict_back.Main(UPLOAD_FOLDER+new_img_name)
     else:
@@ -53,13 +56,22 @@ class Servers(SRH):
         while True:  
             data = self.request.recv(BUFFER_SIZE)  
             if not data:   
-                break  
-            print data  
+                break
+            print repr(data)
+            data = bytearray(data)
+            image = Image.open(io.BytesIO(data))
+            image.save('savepath.jpg')
+            #for i in range(len(data)):
+            #	print data[i]
+            data = repr(data)
+            print type(data),data
+            with open('data.txt','wb') as datafile:
+                  datafile.write(data)
             print "RECV from ", self.client_address[0]
-            try:
-                msg = byte2Img(data, self.client_address[0])
-            except:
-                msg = 'error'
+            #try:
+            msg = byte2Img(data, self.client_address[0])
+            #except:
+            #    msg = 'error'
             self.request.send(msg)
 
 if __name__ == '__main__':
