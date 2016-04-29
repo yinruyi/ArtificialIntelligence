@@ -62,6 +62,7 @@ class Servers(SRH):
             data = self.request.recv(BUFFER_SIZE)  
             if not data:   
                 break
+            data = bytearray(data)
             with open('data1.txt','wb') as datafile:
                   datafile.write(data)            
             data = repr(data)
