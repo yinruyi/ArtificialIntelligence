@@ -70,13 +70,14 @@ class Servers(SRH):
                   datafile.write(data)  
             data = binascii.hexlify(data)
             print type(data),data
-            with open('data.txt','wb') as datafile:
+            with open('data.jpg','wb') as datafile:
                   datafile.write(data)
             print "RECV from ", self.client_address[0]
             #try:
             msg = byte2Img(data, self.client_address[0])
             #except:
             #    msg = 'error'
+            print msg
             self.request.send(msg)
 
 if __name__ == '__main__':
