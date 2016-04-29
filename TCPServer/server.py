@@ -12,6 +12,7 @@ import io
 import Image
 from PIL import ImageFile
 from array import array
+import binascii
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 reload(sys)
@@ -48,6 +49,10 @@ def byte2Img(imgString, address='no_address'):
     else:
     	return ''
 
+def ioImage(data):
+    data = bytearray(data)
+    image = Image.open(io.BytesIO(data))
+    image.save('savepath.jpg')    
 
 class Servers(SRH):  
     def handle(self):  
@@ -57,13 +62,8 @@ class Servers(SRH):
             data = self.request.recv(BUFFER_SIZE)  
             if not data:   
                 break
-            print repr(data)
-            data = bytearray(data)
-            image = Image.open(io.BytesIO(data))
-            image.save('savepath.jpg')
-            #for i in range(len(data)):
-            #	print data[i]
             data = repr(data)
+            data = binascii.hexlify(data)
             print type(data),data
             with open('data.txt','wb') as datafile:
                   datafile.write(data)
