@@ -5,7 +5,7 @@ def main(host):
     # Connect to server and get image size.
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
-        client.connect((host, 65000))
+        client.connect((host, 9999))
     except Exception as e:
         print str(e)
     with open('111.jpg', 'rb') as file:
