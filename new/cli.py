@@ -22,4 +22,4 @@ def main(host):
     client.close()
 
 if __name__ == '__main__':
-	main('localhost')
+	main('182.92.10.18')
