@@ -17,6 +17,8 @@ def main(host):
     message = size + data
     print message,type(message)
     client.sendall(message)
+    msg = client.recv(1024)
+    print msg
     client.close()
 
 if __name__ == '__main__':
