@@ -12,14 +12,16 @@ def main(host):
         data = file.read()
 
     # Construct message with data size.
-    size = struct.pack('!I', len(data))
+    size = struct.pack('I', len(data))
     print size,type(size)
     message = size + data
     print message,type(message)
+    client.sendall(message)
+    msg = client.recv(1024)
     client.sendall(message)
     msg = client.recv(1024)
     print msg
     client.close()
 
 if __name__ == '__main__':
-	main('182.92.10.18')
+	main('localhost')

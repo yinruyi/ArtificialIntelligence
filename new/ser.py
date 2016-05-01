@@ -40,7 +40,7 @@ def recvall(sock, size):
 
 def handler(connection, address):
     packed = recvall(connection, struct.calcsize('!I'))
-    size = struct.unpack('!I', packed)[0]
+    size = struct.unpack('I', packed)[0]
     print("Size of image: "+str(size))
     print('Receiving data from:', address)
     data = recvall(connection, size)
