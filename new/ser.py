@@ -7,7 +7,7 @@ import os, struct, socket
 import sys, time
 import thread
 import random
-import image_classification_predict_back
+import image_classification_predict
 reload(sys)
 sys.setdefaultencoding('utf-8')
 UPLOAD_FOLDER = 'uploads/'
@@ -49,7 +49,7 @@ def handler(connection, address):
         with open(new_img_name, 'wb') as file:
             file.write(data)
         try:
-            message = image_classification_predict_back.Main(new_img_name)
+            message = image_classification_predict.Main(new_img_name)
         except:
             message = 'error'
         connection.send(message)
@@ -60,7 +60,7 @@ if __name__ == '__main__':
     print 'start'
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind(('', 9999))
-    server.listen(5)
+    server.listen(25)
     while True:
         connection, address = server.accept()
         #print('Sending data to:', address)
