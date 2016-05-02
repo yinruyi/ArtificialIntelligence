@@ -7,7 +7,7 @@ import os, struct, socket
 import sys, time
 import thread
 import random
-import image_classification_predict
+import image_classification_predict_back
 reload(sys)
 sys.setdefaultencoding('utf-8')
 UPLOAD_FOLDER = 'uploads/'
@@ -39,20 +39,21 @@ def recvall(sock, size):
     return bytes(message)
 
 def handler(connection, address):
-    packed = recvall(connection, struct.calcsize('!I'))
-    size = struct.unpack('I', packed)[0]
-    print("Size of image: "+str(size))
-    print('Receiving data from:', address)
-    data = recvall(connection, size)
-    new_img_name = rename(address)
-    with open(new_img_name, 'wb') as file:
-        file.write(data)
-    try:
-        message = image_classification_predict.Main(new_img_name)
-    except:
-        message = 'error'
-    connection.send(message)
-    #connection.close()
+    while True:
+        packed = recvall(connection, struct.calcsize('I'))
+        size = struct.unpack('I', packed)[0]
+        print("Size of image: "+str(size))
+        print('Receiving data from:', address)
+        data = recvall(connection, size)
+        new_img_name = rename(address)
+        with open(new_img_name, 'wb') as file:
+            file.write(data)
+        try:
+            message = image_classification_predict_back.Main(new_img_name)
+        except:
+            message = 'error'
+        connection.send(message)
+        #connection.close()
 
 
 if __name__ == '__main__':
@@ -65,3 +66,4 @@ if __name__ == '__main__':
         #print('Sending data to:', address)
         #handler(connection,address)
         thread.start_new_thread(handler,(connection,address))
+
