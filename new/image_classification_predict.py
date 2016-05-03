@@ -44,25 +44,15 @@ def PreprocessImage(path, show_img=False):
     normed_img = sample - mean_img.asnumpy()
     normed_img.resize(1, 3, 224, 224)
     return normed_img
-'''
-# Get preprocessed batch (single image batch)
-batch = PreprocessImage('/root/mxnet/example/cpp/image-classification/apple.jpg', True)
-# Get prediction probability of 1000 classes from model
-prob = model.predict(batch)[0]
-# Argsort, get prediction index from largest prob to lowest
-pred = np.argsort(prob)[::-1]
-# Get top1 label
-top1 = synset[pred[0]]
-print("Top1: ", top1)
-'''
+
 def Main(path):
     batch = PreprocessImage(path, True)
     prob = model.predict(batch)[0]
     pred = np.argsort(prob)[::-1]
     top1 = synset[pred[0]]
-    return top1
+    return top1[9:]
 
 
 
 if __name__ == '__main__':
-	Main("jjjj")
+	print Main("111.jpg")

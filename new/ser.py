@@ -8,6 +8,7 @@ import sys, time
 import thread
 import random
 import image_classification_predict
+import time
 reload(sys)
 sys.setdefaultencoding('utf-8')
 UPLOAD_FOLDER = 'uploads/'
@@ -40,20 +41,26 @@ def recvall(sock, size):
 
 def handler(connection, address):
     while True:
+    	time_a = time.time()
         packed = recvall(connection, struct.calcsize('I'))
         size = struct.unpack('I', packed)[0]
         print("Size of image: "+str(size))
         print('Receiving data from:', address)
         data = recvall(connection, size)
+        time_b = time.time()
+        print 'time of receive data'+str(time_b-time_a)
         new_img_name = rename(address)
         with open(new_img_name, 'wb') as file:
             file.write(data)
         try:
             message = image_classification_predict.Main(new_img_name)
+            print message
         except:
             message = 'error'
+        time_c = time.time()
+        print 'time of calculate'+str(time_c-time_b)
         connection.send(message)
-        #connection.close()
+    connection.close()
 
 
 if __name__ == '__main__':
